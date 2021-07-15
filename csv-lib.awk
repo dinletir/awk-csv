@@ -23,15 +23,25 @@ function csv(sep, fs, TC, this, ML) {
 		NR = NR - 1;
 	}
 	TC = "\x01"; 		
-	$0 = gensub("\"[^\"]*\"", FS "\\0" FS, "g");
-	gsub("\"" FS FS "\"", "\"");
+	$0 = gensub("\"[^\"]*\"", FS "\\0" FS, "g"); # any quoted string may be a field even empty ones.
+	gsub("\"" FS FS "\"", "\""); # adjacent quoted fields are merge with a single quote in between making the remaining ones actual fields.
 	do {
 		A = $0;
-		$0 = gensub("(" FS "[^" sep FS "]+)" sep "([^" FS "]+" FS ")", "\\1" TC "\\2", "g");
+		$0 = gensub("(" FS "[^" sep FS "]+)" sep "([^" FS "]+" FS ")", "\\1" TC "\\2", "g"); # separators within fields a replaced with temp-separators.
 	} while (A != $0);
-	gsub(sep, FS);
-	gsub("(^\"|" FS "\"|\"" FS "|\"$)", "");
-	gsub(TC, sep);
+	gsub(sep, FS); # separators are replaced with field separators.
+	gsub("(^\\s*\"|\\s*" FS "\"|\"" FS "\\s*|\"\\s*$)", ""); # quotes are removed for quoted fields.
+	gsub(TC, sep); # temp-separators are restored to their original values.
 }
 
+function csvHeaders(headers) {
+	for( i = 1; i <= NF; i++ ) {
+		headers[i] = $i;
+	}
+}
 
+function csvRecord(record, this, trim) {
+	for( i = 1; i <= NF; i++) {
+		record[ headers[i] ] = trim ? gensub(/(^\s*|\s*$)/, "", $i, "g") : $i;
+	}
+}
