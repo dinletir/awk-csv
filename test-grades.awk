@@ -12,5 +12,5 @@ NR == 1 {
 }
 {
 	csvRecord(record, 1);
-	print record["Last name"], record["First name"];
+	print record["Last name"], record["First name"], record["Final"];
 }

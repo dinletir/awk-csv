@@ -40,8 +40,8 @@ function csvHeaders(headers) {
 	}
 }
 
-function csvRecord(record, this, trim) {
+function csvRecord(record, trim) {
 	for( i = 1; i <= NF; i++) {
-		record[ headers[i] ] = trim ? gensub(/(^\s*|\s*$)/, "", $i, "g") : $i;
+		record[ headers[i] ] = trim ? gensub(/(^\s*|\s*$)/, "", "g", $i) : $i;
 	}
 }
