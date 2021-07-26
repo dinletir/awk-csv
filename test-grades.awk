@@ -6,8 +6,6 @@
 
 NR == 1 {
 	csvHeaders(headers);
-	for( h in headers) print h, headers[h];
-	print "-----------------------"
 	next;
 }
 {
