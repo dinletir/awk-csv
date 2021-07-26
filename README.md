@@ -1,14 +1,14 @@
-# SCAN THRU A CSV FILE
+# READING A CSV FILE WITH AWK
 
 Usage:
 
-Add the following include file.
+Include the `csv-lib.awk` library.
 
 ```
 @include "csv-lib.awk"
 ```
 
-Then let awk convert every CSV line into awk fields.
+First let awk convert every CSV line into awk fields.
 
 ```
 {
@@ -16,8 +16,7 @@ Then let awk convert every CSV line into awk fields.
 }
 ```	
 
-If the first line in the CSV file is a header, save its fields in a `headers`
-array. 
+If the first line in the CSV file is a header, save its fields in an array. 
 
 
 ```
@@ -27,14 +26,13 @@ NR == 1 {
 }
 ```				
 
-Subsequent lines would then be processed normally.
+Subsequent lines would then be processed normally where fields are numbered
+consecutively as such: `$1, $2, ..., $NF`.
 
-It is also possible to refer to every field by its header name by moving all
-the fields to an array with the following function: `csvRecord(record, 1)` - In
-this case `record` is the array and each field is indexed by its header name.
-
-> The second argument 1 is optional and if present will trim each field's
-leading and trailing spaces.
+> It is also possible to refer to every field by its **header name**, by moving all
+the fields to an **array** with the function `csvRecord(record, 1)`; Where
+`record` is an array indexed by the **header names**, and an optional parameter which
+when set to `'1'`, will trim each field's leading and trailing spaces.
 
 
 
@@ -45,7 +43,7 @@ leading and trailing spaces.
 }
 ```	
 
-Example:
+For example:
 
 > `cat grades.csv|./test-grades.awk`
 
