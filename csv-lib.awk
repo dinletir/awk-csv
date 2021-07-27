@@ -11,13 +11,13 @@
 #	csv(",", "\x10"); or
 #	csn(",", "\x10", "\x11") for example.
 
-function csv(sep, fs, TC, this, ML) {
+function csv(sep, fs, TC, this, ML, A) {
 	if (!sep) sep = ",";
 	if (!fs) FS = "\x00"; else FS = fs;
 	if (!TC) TC = "\x01";
-  ML = $0;
+	ML = $0;
 	while (gsub("\"", "\"") % 2) {
-    getline;		
+		getline;		
 		$0 = ML "\n" $0;
 		ML = $0;
 		NR = NR - 1;
